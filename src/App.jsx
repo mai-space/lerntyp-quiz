@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import NameInput from './components/NameInput';
 import QuizQuestion from './components/QuizQuestion';
 import Result from './components/Result';
@@ -12,16 +12,8 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
-  const [previousAttempt, setPreviousAttempt] = useState(null);
+  const [previousAttempt, setPreviousAttempt] = useState(() => storage.getLastAttempt());
   const [differences, setDifferences] = useState([]);
-
-  useEffect(() => {
-    // Check if there's a previous attempt
-    const lastAttempt = storage.getLastAttempt();
-    if (lastAttempt) {
-      setPreviousAttempt(lastAttempt);
-    }
-  }, []);
 
   const handleNameSubmit = (submittedName) => {
     setName(submittedName);
@@ -58,13 +50,8 @@ function App() {
 
   const handleRestart = () => {
     // Store current attempt as previous for next comparison
-    if (result) {
-      setPreviousAttempt({
-        name,
-        answers,
-        result
-      });
-    }
+    const lastAttempt = storage.getLastAttempt();
+    setPreviousAttempt(lastAttempt);
     
     setStep('name');
     setName('');

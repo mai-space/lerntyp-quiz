@@ -28,10 +28,14 @@ function Result({ name, result, differences, onExport, onRestart }) {
           <div className="scores-section">
             <h3>Deine Lerntyp-Verteilung:</h3>
             <div className="scores-chart">
-              {Object.entries(result.scores).map(([type, score]) => (
+              {Object.entries(result.scores).map(([type]) => (
                 <div key={type} className="score-bar-container">
                   <div className="score-label">
-                    <span className="score-name">{learningTypes[type].name.split(' ')[0]}</span>
+                    <span className="score-name">
+                      {learningTypes[type].name.includes(' ') 
+                        ? learningTypes[type].name.split(' ')[0] 
+                        : learningTypes[type].name}
+                    </span>
                     <span className="score-value">{percentages[type]}%</span>
                   </div>
                   <div className="score-bar">
