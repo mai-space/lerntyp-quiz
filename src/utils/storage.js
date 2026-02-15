@@ -45,7 +45,7 @@ export const storage = {
       : null;
   },
 
-  // Compare two attempts
+  // Compare two attempts (handles both single and multiple selections)
   compareAttempts: (attempt1, attempt2) => {
     const differences = [];
     
@@ -53,11 +53,16 @@ export const storage = {
 
     attempt1.answers.forEach((answer1, index) => {
       const answer2 = attempt2.answers[index];
-      if (answer1 !== answer2) {
+      
+      // Normalize to arrays for comparison
+      const ans1 = Array.isArray(answer1) ? answer1.sort().join(',') : answer1;
+      const ans2 = Array.isArray(answer2) ? answer2.sort().join(',') : answer2;
+      
+      if (ans1 !== ans2) {
         differences.push({
           questionId: index + 1,
-          previousAnswer: answer1,
-          currentAnswer: answer2
+          previousAnswer: Array.isArray(answer1) ? answer1.join(', ') : answer1,
+          currentAnswer: Array.isArray(answer2) ? answer2.join(', ') : answer2
         });
       }
     });
@@ -84,21 +89,31 @@ export const storage = {
   }
 };
 
-// Calculate result from answers
+// Calculate result from answers (supporting multiple selections)
 export const calculateResult = (answers, questions) => {
   const scores = {
     visual: 0,
     auditory: 0,
-    kinesthetic: 0,
-    reading: 0
+    haptic: 0,
+    communicative: 0
   };
 
-  answers.forEach((answerId, index) => {
+  let totalSelections = 0;
+
+  answers.forEach((selectedIds, index) => {
     const question = questions[index];
-    const selectedOption = question.options.find(opt => opt.id === answerId);
-    if (selectedOption) {
-      scores[selectedOption.type]++;
-    }
+    // Handle both single answer (string) and multiple answers (array)
+    const ids = Array.isArray(selectedIds) ? selectedIds : [selectedIds];
+    
+    ids.forEach(answerId => {
+      const selectedOption = question.options.find(opt => opt.id === answerId);
+      if (selectedOption && selectedOption.types) {
+        selectedOption.types.forEach(type => {
+          scores[type]++;
+          totalSelections++;
+        });
+      }
+    });
   });
 
   // Find the dominant learning type
@@ -109,6 +124,7 @@ export const calculateResult = (answers, questions) => {
     scores,
     dominantType: dominantTypes[0], // In case of tie, take first
     allDominantTypes: dominantTypes,
-    totalQuestions: answers.length
+    totalQuestions: answers.length,
+    totalSelections
   };
 };

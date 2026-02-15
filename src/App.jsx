@@ -2,6 +2,7 @@ import { useState } from 'react';
 import NameInput from './components/NameInput';
 import QuizQuestion from './components/QuizQuestion';
 import Result from './components/Result';
+import ThemeToggle from './components/ThemeToggle';
 import { quizQuestions } from './data/quizData';
 import { storage, calculateResult } from './utils/storage';
 import './App.css';
@@ -11,6 +12,7 @@ function App() {
   const [name, setName] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [currentSelections, setCurrentSelections] = useState([]);
   const [result, setResult] = useState(null);
   const [previousAttempt, setPreviousAttempt] = useState(() => storage.getLastAttempt());
   const [differences, setDifferences] = useState([]);
@@ -20,9 +22,14 @@ function App() {
     setStep('quiz');
   };
 
-  const handleAnswer = (answerId) => {
-    const newAnswers = [...answers, answerId];
+  const handleAnswer = (selectedIds) => {
+    setCurrentSelections(selectedIds);
+  };
+
+  const handleNext = () => {
+    const newAnswers = [...answers, currentSelections];
     setAnswers(newAnswers);
+    setCurrentSelections([]);
 
     if (currentQuestionIndex < quizQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -57,12 +64,14 @@ function App() {
     setName('');
     setCurrentQuestionIndex(0);
     setAnswers([]);
+    setCurrentSelections([]);
     setResult(null);
     setDifferences([]);
   };
 
   return (
     <div className="app">
+      <ThemeToggle />
       {step === 'name' && (
         <NameInput onSubmit={handleNameSubmit} />
       )}
@@ -72,8 +81,9 @@ function App() {
           question={quizQuestions[currentQuestionIndex]}
           currentQuestion={currentQuestionIndex + 1}
           totalQuestions={quizQuestions.length}
-          selectedAnswer={answers[currentQuestionIndex]}
+          selectedAnswers={currentSelections}
           onAnswer={handleAnswer}
+          onNext={handleNext}
         />
       )}
       

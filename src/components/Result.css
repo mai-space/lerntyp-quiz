@@ -7,12 +7,13 @@
 }
 
 .result-card {
-  background: white;
+  background: var(--card-bg);
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 100%;
+  transition: background 0.3s ease;
 }
 
 .result-header {
@@ -21,13 +22,13 @@
 }
 
 .result-header h1 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 8px;
   font-size: 2rem;
 }
 
 .result-subtitle {
-  color: #7f8c8d;
+  color: var(--text-secondary);
   font-size: 1.1rem;
 }
 
@@ -50,12 +51,12 @@
 }
 
 .learning-description {
-  color: #34495e;
+  color: var(--text-tertiary);
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 30px;
   padding: 20px;
-  background: #f8f9fa;
+  background: var(--option-bg);
   border-radius: 8px;
 }
 
@@ -64,7 +65,7 @@
 }
 
 .scores-section h3 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 15px;
   font-size: 1.3rem;
 }
@@ -88,18 +89,18 @@
 }
 
 .score-name {
-  color: #34495e;
+  color: var(--text-tertiary);
   font-weight: 600;
 }
 
 .score-value {
-  color: #7f8c8d;
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
 .score-bar {
   height: 24px;
-  background: #ecf0f1;
+  background: var(--score-bar-bg);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -118,11 +119,11 @@
   background: linear-gradient(90deg, #f093fb, #f5576c);
 }
 
-.score-fill[data-type="kinesthetic"] {
+.score-fill[data-type="haptic"] {
   background: linear-gradient(90deg, #4facfe, #00f2fe);
 }
 
-.score-fill[data-type="reading"] {
+.score-fill[data-type="communicative"] {
   background: linear-gradient(90deg, #43e97b, #38f9d7);
 }
 
@@ -131,7 +132,7 @@
 }
 
 .tips-section h3 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 15px;
   font-size: 1.3rem;
 }
@@ -221,23 +222,23 @@
 }
 
 .btn-primary {
-  background: #3498db;
+  background: var(--button-primary);
   color: white;
 }
 
 .btn-primary:hover {
-  background: #2980b9;
+  background: var(--button-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
 }
 
 .btn-secondary {
-  background: #ecf0f1;
-  color: #2c3e50;
+  background: var(--button-secondary);
+  color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-  background: #bdc3c7;
+  background: var(--button-secondary-hover);
   transform: translateY(-2px);
 }
 
