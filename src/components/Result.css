@@ -152,6 +152,109 @@
   color: #2e7d32;
 }
 
+/* Kolb Learning Styles Section */
+.kolb-section {
+  margin-top: 40px;
+  padding: 30px;
+  background: var(--option-bg);
+  border-radius: 12px;
+  border: 2px solid var(--score-bar-bg);
+}
+
+.kolb-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.kolb-style-badge {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.kolb-style-badge h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.kolb-description {
+  color: var(--text-tertiary);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.kolb-typical {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: rgba(250, 112, 154, 0.1);
+  border-radius: 6px;
+}
+
+.kolb-traits {
+  margin-bottom: 20px;
+  color: var(--text-tertiary);
+}
+
+.kolb-traits strong {
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.kolb-traits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kolb-traits li {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.kolb-scores-section {
+  margin-top: 25px;
+}
+
+.kolb-scores-section h4 {
+  color: var(--text-primary);
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.score-fill[data-type="kolb-accommodator"] {
+  background: linear-gradient(90deg, #fa709a, #fee140);
+}
+
+.score-fill[data-type="kolb-diverger"] {
+  background: linear-gradient(90deg, #30cfd0, #330867);
+}
+
+.score-fill[data-type="kolb-assimilator"] {
+  background: linear-gradient(90deg, #a8edea, #fed6e3);
+}
+
+.score-fill[data-type="kolb-converger"] {
+  background: linear-gradient(90deg, #ff9a56, #ff6a88);
+}
+
 .comparison-section {
   margin-top: 30px;
   padding: 20px;
