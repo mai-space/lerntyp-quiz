@@ -98,6 +98,13 @@ export const calculateResult = (answers, questions) => {
     communicative: 0
   };
 
+  const kolbScores = {
+    accommodator: 0,
+    diverger: 0,
+    assimilator: 0,
+    converger: 0
+  };
+
   let totalSelections = 0;
 
   answers.forEach((selectedIds, index) => {
@@ -107,23 +114,39 @@ export const calculateResult = (answers, questions) => {
     
     ids.forEach(answerId => {
       const selectedOption = question.options.find(opt => opt.id === answerId);
-      if (selectedOption && selectedOption.types) {
-        selectedOption.types.forEach(type => {
-          scores[type]++;
-          totalSelections++;
-        });
+      if (selectedOption) {
+        // Count VARK types
+        if (selectedOption.types) {
+          selectedOption.types.forEach(type => {
+            scores[type]++;
+            totalSelections++;
+          });
+        }
+        // Count Kolb types
+        if (selectedOption.kolbTypes) {
+          selectedOption.kolbTypes.forEach(kolbType => {
+            kolbScores[kolbType]++;
+          });
+        }
       }
     });
   });
 
-  // Find the dominant learning type
+  // Find the dominant learning type (VARK)
   const maxScore = Math.max(...Object.values(scores));
   const dominantTypes = Object.keys(scores).filter(type => scores[type] === maxScore);
+
+  // Find the dominant Kolb learning style
+  const maxKolbScore = Math.max(...Object.values(kolbScores));
+  const dominantKolbTypes = Object.keys(kolbScores).filter(type => kolbScores[type] === maxKolbScore);
 
   return {
     scores,
     dominantType: dominantTypes[0], // In case of tie, take first
     allDominantTypes: dominantTypes,
+    kolbScores,
+    dominantKolbType: dominantKolbTypes[0], // In case of tie, take first
+    allDominantKolbTypes: dominantKolbTypes,
     totalQuestions: answers.length,
     totalSelections
   };

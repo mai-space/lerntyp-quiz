@@ -1,13 +1,21 @@
-import { learningTypes } from '../data/quizData';
+import { learningTypes, kolbLearningStyles } from '../data/quizData';
 import './Result.css';
 
 function Result({ name, result, differences, onExport, onRestart }) {
   const learningType = learningTypes[result.dominantType];
+  const kolbStyle = kolbLearningStyles[result.dominantKolbType];
   
-  // Calculate percentages
+  // Calculate percentages for VARK types
   const percentages = {};
   Object.keys(result.scores).forEach(type => {
     percentages[type] = Math.round((result.scores[type] / result.totalQuestions) * 100);
+  });
+
+  // Calculate percentages for Kolb styles
+  const kolbPercentages = {};
+  Object.keys(result.kolbScores).forEach(type => {
+    const total = Object.values(result.kolbScores).reduce((sum, score) => sum + score, 0);
+    kolbPercentages[type] = total > 0 ? Math.round((result.kolbScores[type] / total) * 100) : 0;
   });
 
   return (
@@ -58,6 +66,52 @@ function Result({ name, result, differences, onExport, onRestart }) {
               ))}
             </ul>
           </div>
+
+          {kolbStyle && (
+            <div className="kolb-section">
+              <h3>🎯 Tendenz zu Lernstil nach Kolb:</h3>
+              <div className="kolb-style-badge">
+                <h4>{kolbStyle.name}</h4>
+              </div>
+              <p className="kolb-description">{kolbStyle.description}</p>
+              {kolbStyle.typical && (
+                <p className="kolb-typical"><em>{kolbStyle.typical}</em></p>
+              )}
+              {kolbStyle.traits && (
+                <div className="kolb-traits">
+                  <strong>Charakteristika:</strong>
+                  <ul>
+                    {kolbStyle.traits.map((trait, index) => (
+                      <li key={index}>{trait}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              <div className="kolb-scores-section">
+                <h4>Verteilung der Kolb-Lernstile:</h4>
+                <div className="scores-chart">
+                  {Object.entries(result.kolbScores).map(([type]) => (
+                    <div key={type} className="score-bar-container">
+                      <div className="score-label">
+                        <span className="score-name">
+                          {kolbLearningStyles[type].name.split(' ')[0]}
+                        </span>
+                        <span className="score-value">{kolbPercentages[type]}%</span>
+                      </div>
+                      <div className="score-bar">
+                        <div 
+                          className="score-fill" 
+                          style={{ width: `${kolbPercentages[type]}%` }}
+                          data-type={`kolb-${type}`}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {differences && differences.length > 0 && (
             <div className="comparison-section">
